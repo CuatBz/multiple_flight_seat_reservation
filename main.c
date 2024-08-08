@@ -64,7 +64,7 @@ int main (void)
             }
             
             if (structs_read == 48)
-                printf("Data loaded successfully!\n");
+                printf("Data loaded successfully!\n\n");
         }
 
         if (is_new_file <= 0 || structs_read < 48)                                        //do this if the file is new

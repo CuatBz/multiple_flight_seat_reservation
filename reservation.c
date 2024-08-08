@@ -16,6 +16,8 @@ static void unassign_seat (struct Seat Plane[][SEAT_COUNT], int num, int seats);
 
 static struct Seat * arr_ptr[SEAT_COUNT];      //used for sorting the struct
 
+const char * _status [3] = {"Unassigned", "Assigned", "Confirmed"};       //String form of seat status
+
 static void show_empty_seats_num (struct Seat Plane[][SEAT_COUNT], int num, int seats)
 {
     printf("\nCurrently there are %d empty seats.\n", count_empty_seats(Plane, num, seats));
@@ -29,7 +31,7 @@ static void show_empty_seats (struct Seat Plane[][SEAT_COUNT], int num, int seat
     {
         if (Plane[num][i].seat_status == 0)
         {
-            if (i == 0)
+            if (count == 0)
                 printf("\nCurrently the available seats are:\n\n");
 
             count++;
@@ -61,8 +63,6 @@ static void alpha_sort_seats (struct Seat Plane[][SEAT_COUNT], int num, int seat
             }
         }
     }
-
-    char * _status [3] = {"Unassigned", "Assigned", "Confirmed"};       //String form of seat status
     
     printf("\nThe seats in alphabetical order:\n\n");
     for (int j = 0; j < seats; j++)
@@ -78,7 +78,7 @@ static void assign_seat (struct Seat Plane[][SEAT_COUNT], int num, int seats)
     {
         if (Plane[num][i].seat_status == 0)
         {
-            if (i == 0)
+            if (count == 0)
                 printf("\nAvailable seats:\n");
 
             count++;
@@ -112,7 +112,7 @@ static void assign_seat (struct Seat Plane[][SEAT_COUNT], int num, int seats)
             }
         }
 
-        printf("\nYou will be seat_status seat %s\n", Plane[num][index].id);
+        printf("\nYou will be assigned seat %s\n", Plane[num][index].id);
 
         printf("\nPlease enter your first name:\n");
         s_gets(Plane[num][index].fname, NAME_LEN);
@@ -130,7 +130,7 @@ static void assign_seat (struct Seat Plane[][SEAT_COUNT], int num, int seats)
             s_gets(Plane[num][index].lname, NAME_LEN);
         }
 
-        printf("\n%s %s you have been seat_status seat %s\n", Plane[num][index].fname, Plane[num][index].lname, Plane[num][index].id);
+        printf("\n%s %s you have been assigned seat %s\n", Plane[num][index].fname, Plane[num][index].lname, Plane[num][index].id);
     }
 
     else
@@ -147,7 +147,7 @@ static void confirm_seat (struct Seat Plane[][SEAT_COUNT], int num, int seats)
     {
         if (Plane[num][i].seat_status == 1)
         {
-            if (i == 1)
+            if (count == 0)
                 printf("\nCurrent assigned seats:\n");
 
             count++;
@@ -198,13 +198,15 @@ static void unassign_seat (struct Seat Plane[][SEAT_COUNT], int num, int seats)
 
     for (int i = 0; i < seats; i++)
     {
-        if (Plane[num][i].seat_status == 1)
+        if (Plane[num][i].seat_status == 1 || Plane[num][i].seat_status == 2)
         {
-            if (i == 0)
+            if (count == 0)
+            {
                 printf("\nAssigned seats:\n");
+            }
 
             count++;
-            printf("Seat #%d: %s | %s %s\n", count, Plane[num][i].id, Plane[num][i].fname, Plane[num][i].lname);
+            printf("Seat #%2d: %s | %10s | %s %s\n", count, Plane[num][i].id, _status[Plane[num][i].seat_status], Plane[num][i].fname, Plane[num][i].lname);
         }
     }
 
@@ -224,7 +226,7 @@ static void unassign_seat (struct Seat Plane[][SEAT_COUNT], int num, int seats)
         int index;
         for (int k = 0; k < seats; k++)
         {
-            if (Plane[num][k].seat_status == 1)
+            if (Plane[num][k].seat_status == 1 || Plane[num][k].seat_status == 2)
                 count++;
                 
             if (count == choice)
@@ -235,14 +237,14 @@ static void unassign_seat (struct Seat Plane[][SEAT_COUNT], int num, int seats)
             }
         }
 
-        printf("\n%s %s has been unseat_status from seat %s\n", Plane[num][index].fname, Plane[num][index].lname, Plane[num][index].id);
+        printf("\n%s %s has been unassigned from seat %s\n", Plane[num][index].fname, Plane[num][index].lname, Plane[num][index].id);
         Plane[num][index].fname[0] = '\0';
         Plane[num][index].lname[0] = '\0';
     }
     
     else
     {
-        printf("\nNo seats have been seat_status yet.\n");
+        printf("\nNo seats have been assigned yet.\n");
     }
 }
 
